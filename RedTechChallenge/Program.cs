@@ -1,7 +1,10 @@
 using RedTechChallenge.Profiles;
 using System;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 //add profiles and create mapping object
@@ -27,13 +30,15 @@ builder.Services.AddScoped<OrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
-app.UseHttpsRedirection();
+ app.UseSwagger();
+ app.UseSwaggerUI();
+
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseAuthorization();
 
