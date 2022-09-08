@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllMethods",
+        builder => builder.WithOrigins("http://localhost").AllowAnyMethod().AllowAnyHeader());
+});
 
 // Add services to the container.
 //add profiles and create mapping object
@@ -30,9 +34,9 @@ builder.Services.AddScoped<OrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
- app.UseCors(builder => builder.WithOrigins("http://localhost").AllowAnyHeader().AllowAnyMethod());
- app.UseSwagger();
- app.UseSwaggerUI();
+app.UseCors("AllowAllMethods");
+app.UseSwagger();
+app.UseSwaggerUI();
 
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
