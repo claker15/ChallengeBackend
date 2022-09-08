@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllMethods",
-        builder => builder.WithOrigins("http://localhost").AllowAnyMethod().AllowAnyHeader());
+        builder => builder.WithOrigins("http://localhost:3000", "http://45.33.84.231").AllowAnyMethod().AllowAnyHeader());
 });
 
 // Add services to the container.
