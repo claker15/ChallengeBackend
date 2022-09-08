@@ -61,8 +61,6 @@ namespace RedTechChallenge.Controllers
             {
                 return NoContent();
             }
-
-
             return new OkObjectResult(temp);
         }
 
