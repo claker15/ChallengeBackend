@@ -40,7 +40,7 @@ namespace RedTechChallenge.Models
         {
             //map orderDto object to internal order object
             var intOrder = _mapper.Map<OrderDto, Order>(order);
-            var temp await _context.Orders.AddAsync(intOrder);
+            var temp = await _context.Orders.AddAsync(intOrder);
             await _context.SaveChangesAsync();
             return order;
         }
