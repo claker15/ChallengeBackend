@@ -6,7 +6,7 @@ namespace RedTechChallenge.Controllers
 {
     [ApiController]
     [Route("api/Orders")]
-    [EnableCors("AllowSpecificOrigin")]
+    [EnableCors("AllowAllMethods")]
     public class OrdersController : ControllerBase
     {
 
