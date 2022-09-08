@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddCors();
 
 // Add services to the container.
 //add profiles and create mapping object
@@ -30,7 +30,7 @@ builder.Services.AddScoped<OrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+ app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
  app.UseSwagger();
  app.UseSwaggerUI();
 
