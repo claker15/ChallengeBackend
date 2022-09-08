@@ -30,7 +30,7 @@ builder.Services.AddScoped<OrderRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
- app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+ app.UseCors(builder => builder.WithOrigins("http://localhost").AllowAnyHeader().AllowAnyMethod());
  app.UseSwagger();
  app.UseSwaggerUI();
 

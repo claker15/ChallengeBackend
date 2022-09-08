@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
@@ -5,6 +6,7 @@ namespace RedTechChallenge.Controllers
 {
     [ApiController]
     [Route("api/Orders")]
+    [EnableCors("AllowSpecificOrigin")]
     public class OrdersController : ControllerBase
     {
 
