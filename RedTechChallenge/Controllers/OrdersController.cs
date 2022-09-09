@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace RedTechChallenge.Controllers
 {
@@ -26,7 +25,10 @@ namespace RedTechChallenge.Controllers
         public async Task<IActionResult> get()
         {
             var orders = await _orderRepository.getOrders();
-
+            if (orders == null)
+            {
+                return NotFound();
+            }
             return Ok(orders);
         }
 
@@ -43,10 +45,8 @@ namespace RedTechChallenge.Controllers
             {
                 return NoContent();
             }
-            else
-            {
-                return new OkObjectResult(temp);
-            }
+
+            return new OkObjectResult(temp);
         }
 
         /// <summary>
@@ -57,7 +57,10 @@ namespace RedTechChallenge.Controllers
         [HttpPost(Name = "PostOrder")]
         public async Task<IActionResult> addOrder(OrderDto order)
         {
-            //validate parameters
+            if (!ModelState.IsValid || !checkTypeString(order.Type))
+            {
+                return BadRequest();
+            }
             var temp = await _orderRepository.addOrder(order);
             if (order == null)
             {
@@ -74,6 +77,10 @@ namespace RedTechChallenge.Controllers
         [HttpPut(Name = "EditOrder")]
         public async Task<IActionResult> editOrder(OrderDto order)
         {
+            if (!ModelState.IsValid || !checkTypeString(order.Type))
+            {
+                return BadRequest();
+            }
             var temp = await _orderRepository.editOrder(order);
             if (temp)
             {
@@ -114,8 +121,27 @@ namespace RedTechChallenge.Controllers
         [Route("ByType")]
         public async Task<IActionResult> getOrdersByType(string type)
         {
+            if (!checkTypeString(type))
+            {
+                return BadRequest();
+            }
             var list = await _orderRepository.getOrdersByType(type);
             return Ok(list);
+        }
+
+
+        //this should probably be in a service layer
+        private Boolean checkTypeString(string type)
+        {
+            var types = new string[] { "Standard", "SaleOrder", "PurchaseOrder", "TransferOrder", "ReturnOrder" };
+            if (types.Contains(type))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
